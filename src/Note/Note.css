@@ -1,0 +1,46 @@
+.note {
+    box-sizing: border-box;
+    position: relative;
+    min-width: 200px;
+    border: 2px solid lightblue;
+    margin-top: 20px;
+    padding: 10px;
+
+    border-radius: 10px;
+
+    background-color: lightgrey;
+}
+
+.note h3 {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.note p {
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+.note button {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+
+    border-radius: 10px;
+
+
+    background-color: #333;
+    border: 1px solid red;
+    color: white;
+
+    font-weight: bold;
+}
+
+.note__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+
