@@ -3,10 +3,10 @@ import React from 'react';
 import ApiContext from '../ApiContext'
 import ValidationError from '../ValidationError'
 
-import './AddNote.css'
+import './AddPurchase.css'
 import config from '../config'
 
-class AddNote extends React.Component {
+class AddPurchase extends React.Component {
     /*
     SET STATE
     */
@@ -17,12 +17,16 @@ class AddNote extends React.Component {
                 value: '',
                 touched: false
             },
-            folderId: {
+            total: {
                 value: '',
                 touched: false
             },
             content: {
                 value: '',
+                touched: false
+            },
+            paymentStatus: {
+                value: 'None',
                 touched: false
             },
             error: false
@@ -31,22 +35,22 @@ class AddNote extends React.Component {
 
     static contextType = ApiContext;
 
-    getFolderFromNote(noteId) {
-        const note = this.context.notes.find(note => note.id === Number(noteId));
-        const folder = this.context.folders.find(folder => folder.id === note.folderId);
-        return folder;
-    }
+
 
     updateNoteName(name) {
         this.setState({name: {value: name, touched: true}})
     }
 
-    updateFolderId(folderId) {
-        this.setState({folderId: {value: folderId, touched: true}})
+    updateTotal(total) {
+        this.setState({total: {value: total, touched: true}})
     }
 
     updateContent(content) {
         this.setState({content: {value: content, touched: true}})
+    }
+
+    updatePaymentStatus(paymentStatus) {
+        this.setState({paymentStatus: {value: paymentStatus, touched: true}})
     }
 
     handleSubmit(event) {
@@ -56,10 +60,13 @@ class AddNote extends React.Component {
         const note = {
             name: this.state.name.value,
             modified: now,
-            folderId: this.state.folderId.value,
+            folderId: 2,
+            total: this.state.total.value,
             content: this.state.content.value,
+            paymentStatus: this.state.paymentStatus.value,
         }
-        const url = config.API_ENDPOINT + "/api/notes";
+        const url = config.API_ENDPOINT + "/api/notes/purchase";
+
         fetch(url, {
             method:"POST",
             body: JSON.stringify(note),
@@ -80,11 +87,15 @@ class AddNote extends React.Component {
                     value: '',
                     touched: false
                 },
-                folderId: {
+                total: {
                     value: '',
                     touched: false
                 },
                 content: {
+                    value: '',
+                    touched: false
+                },
+                paymentStatus: {
                     value: '',
                     touched: false
                 },
@@ -103,12 +114,23 @@ class AddNote extends React.Component {
         if (name.length === 0) {
             return "Note name is required."
         }
+    
     }
 
-    validateFolderId() {
-        const folderId = this.state.folderId.value.trim();
-        if (folderId.length === 0) {
-            return "Folder name is required."
+    validatePaymentStatus() {
+        const paymentStatus = this.state.paymentStatus.value;
+        if (paymentStatus === "None") {
+            return "Payment Status is required."
+        }
+     
+    }    
+
+    validateTotal() {
+        const total = this.state.total.value.trim();
+        let regexp1 = /^\d+\.\d{0,2}$/;
+        let regexp2 = /^\d{0,8}$/;
+        if (total.length === 0 || !(regexp1.test(total) || regexp2.test(total))) {
+            return "Total must contain an amount."
         }
     }
 
@@ -121,17 +143,19 @@ class AddNote extends React.Component {
 
     render() {
         const nameError = this.validateNoteName();
-        const folderIdError = this.validateFolderId();
         const contentError = this.validateContent();
+        const totalError = this.validateTotal();
+        const paymentStatusError = this.validatePaymentStatus();
 
         return (
             <form className="addnote" onSubmit={(e) => this.handleSubmit(e)}>
-                <h2>Add Note</h2>
+                <h2>Add Transaction</h2>
                 <div className="form-group">
-                    <label htmlFor="name">Note Name:</label>{" "}
+                    <label htmlFor="name">Name:</label>{" "}
                     <input 
                         type="text"
                         className="addnote__control"
+                        placeholder="e.g. John Doe"
                         name="name"
                         id="name"
                         value={this.state.name.value}
@@ -140,20 +164,16 @@ class AddNote extends React.Component {
                         {this.state.name.touched && <ValidationError message={nameError} />}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="folderId">Folder Name: </label>{" "}
-                    <select
+                    <label htmlFor="folderId">Total: </label>{" "}
+                    <input
                         className="addnote__control"
+                        placeholder="e.g. 5.00"
                         name="folderId"
                         id="folderId"
-                        onChange={e => this.updateFolderId(e.target.value)}>
-                            <option value="None">Select Folder</option>
-                        {this.context.folders.map(folder => {
-                            return (
-                                <option key={folder.id} value={folder.id}>{folder.foldername}</option>
-                            )
-                        })}
-                    </select>
-                        {this.state.folderId.touched && <ValidationError message={folderIdError} />}
+                        onChange={e => this.updateTotal(e.target.value)}
+                    />
+                    {this.state.total.touched && <ValidationError message={totalError} />}
+
                 </div>
                 <div className="form-group note-content">
                     <textarea 
@@ -163,11 +183,30 @@ class AddNote extends React.Component {
                         name="content"
                         id="content"
                         value={this.state.content.value}
-                        placeholder="A long time ago in a galaxy far, far away..."
+                        placeholder="e.g. Will pay on June 1st, 2020"
                         onChange={e => this.updateContent(e.target.value)}
                         />
                         {this.state.content.touched && <ValidationError message={contentError} />}
                 </div>
+
+                <div className="form-group">
+                    <label htmlFor="folderId">Paid: </label>{" "}
+                    <select
+                        className="addnote__control"
+                        name="folderId"
+                        id="folderId"
+                        onChange={e => this.updatePaymentStatus(e.target.value)}>
+                            <option value="None">Select Payment Status</option>
+                            <option key={1} value={true}>Paid</option>
+                            <option key={2} value={false}>Unpaid</option>
+
+                            )
+                        })}
+                    </select>
+                    {this.state.paymentStatus.touched && <ValidationError message={paymentStatusError} />}
+
+                </div>
+
                 <div className="addnote__button__group">
                    
                     <button 
@@ -175,8 +214,9 @@ class AddNote extends React.Component {
                         className="addnote__button"
                         disabled={
                             this.validateNoteName() ||
-                            this.validateFolderId() ||
-                            this.validateContent()
+                            this.validateTotal() ||
+                            this.validateContent() ||
+                            this.validatePaymentStatus()
                         }
                     >
                         Save
@@ -187,4 +227,4 @@ class AddNote extends React.Component {
     }
 }
 
-export default AddNote;
+export default AddPurchase;

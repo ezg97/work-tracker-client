@@ -8,21 +8,38 @@ class SidebarWithNoteSelected extends React.Component {
     static defaultProps = {
         match: {
             params: {
-                noteId: ""
+                noteId: "",
+                folderId: "",
             }
         }
     }
-    static contextType = ApiContext
+    static contextType = ApiContext;
     render() {
-        const noteId = this.props.match.params.noteId;
-        const note = this.context.notes.find(note => Number(note.id) === Number(noteId)) || {};
-        const selectedFolder = this.context.folders.find(folder => folder.id === note.folderid) || {};
-        return (
-            <div className='sidebar'>
-                <button onClick={() => this.props.history.goBack()}>Go back</button>
-                <Folder key={selectedFolder.id} id={selectedFolder.id} name={selectedFolder.foldername} />
-            </div>
-        )
+        const selectedFolder = this.context.folders.find((folder) => {
+            if (parseInt(folder.id) === parseInt(this.props.match.params.folderId)) {
+                return folder;
+            }
+        }) || {};
+        if (parseInt(this.props.match.params.folderId) === 1) {
+            return (
+                <div className='sidebar'>
+                    <button onClick={() => this.props.history.goBack()}>Go back</button>
+                    <Folder key={selectedFolder.id} id={selectedFolder.id} name={selectedFolder.foldername} />
+                </div>
+            )
+        }
+        else if(parseInt(this.props.match.params.folderId) === 2) {
+            return (
+                <div className='sidebar'>
+                    <button onClick={() => this.props.history.goBack()}>Go back</button>
+                    <Folder key={selectedFolder.id} id={selectedFolder.id} name={selectedFolder.foldername} />
+                </div>
+            )
+        }
+        else{
+            return(<div></div>)
+        }
+        
 
     }
 }
