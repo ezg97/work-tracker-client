@@ -1,10 +1,13 @@
 .note {
     box-sizing: border-box;
     position: relative;
+    width: 100%;
     min-width: 200px;
     border: 2px solid lightblue;
     margin-top: 20px;
     padding: 10px;
+
+    
 
     border-radius: 10px;
 
@@ -21,26 +24,99 @@
     font-size: 12px;
 }
 
-.note button {
-    width: 100px;
-    height: 30px;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
+.button-modify{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+
+    float: right;
+    
+}
+.note_button {
+
+    max-width: 100px;
 
     border-radius: 10px;
 
-
+    margin: 10px 10px;
     background-color: #333;
     border: 1px solid red;
     color: white;
 
     font-weight: bold;
+
+}
+
+/* Increment and decrement buttons */
+
+.inc_dec_buttons {
+    border: 1px solid red;
+
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+}
+
+.inc_dec_buttons > div {
+    font-weight: bolder;
+    font-size: 18px;
+    padding: 0px;
+    border: 1px solid green;
+}
+
+.small {
+     width: 25px;
+    height: 25px;
+    padding: 0px;
+/* 
+    border-radius: 50%;
+    border: 1px solid black;
+
+    background-color: white;
+    color: black;
+
+    padding: 0px; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bolder;
+
+}
+
+.small:nth-child(2) {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.small:hover, .small:focus {
+    background-color: black;
+    color: white;
+    border: 1px solid white;
 }
 
 .note__link {
     text-decoration: none;
-    color: inherit;
+    color: black;
+    font-weight: bold;
+    display: inline-block;
 }
 
+/* edit and delete buttons */
+.note_button {
+    width: 200px;
+    height: 50px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    border-radius: 10px;
+}
+
+.note__link:hover, .note__link:focus{
+    text-decoration: underline;
+}
 

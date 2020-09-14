@@ -119,19 +119,32 @@ class App extends Component {
       notes: newNotes
     });
     console.log(note.id, note.folderid);
-    this.props.history.push(`/note/${note.id}`)
+    this.props.history.push(`/`)
+  }
+
+  editNote = (note) => {
+    console.log('edited note: ',note);
+    const newNotes = [...this.state.notes, note]
+    this.setState({
+      notes: newNotes
+    });
+    console.log(note.id, note.folderid);
+    this.props.history.push(`/`)
   }
 
   render() {
     const contextValue = {
       folders: this.state.folders,
-      notes: [...this.state.inventory, ...this.state.purchases],
+      notes: [...this.state.notes],
       deleteNote: this.deleteNote,
       createFolder: this.createFolder,
       createNote: this.createNote,
+      editNote: this.editNote,
     }
     return (
+      
       <div className="App">
+        {console.table(this.state.notes)}
         <header>
           <Link to='/'>
             <h1 className="app_title">Oils Por Vida</h1>
@@ -149,6 +162,8 @@ class App extends Component {
               <Route path='/addfolder' component={AddFolder} />
               <Route path='/addinventory' component={AddInventory} />
               <Route path='/addpurchase' component={AddPurchase} />
+              <Route path='/editinventory' component={AddInventory} />
+              <Route path='/editpurchase' component={AddPurchase} />
               </ErrorBoundary>
             </main>
           </ApiContext.Provider>

@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
+
 
 import ApiContext from '../ApiContext'
 import ValidationError from '../ValidationError'
@@ -146,6 +148,9 @@ class AddPurchase extends React.Component {
         const contentError = this.validateContent();
         const totalError = this.validateTotal();
         const paymentStatusError = this.validatePaymentStatus();
+
+        console.log(this.props.location.pathname);
+ 
 
         return (
             <form className="addnote" onSubmit={(e) => this.handleSubmit(e)}>

@@ -17,7 +17,7 @@ class Sidebar extends Component {
                 {this.context.folders.map(folder => {
                     return (<Folder key={folder.id} id={folder.id} name={folder.foldername} />)
                 })}
-            <Link to='/addfolder'><button> Add Folder </button></Link>
+            <Link to='/addfolder'><button className="sidebar_button"> Add Folder </button></Link>
             </div>
         )
     }

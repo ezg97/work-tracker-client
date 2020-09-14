@@ -1,5 +1,5 @@
 .folder {
-    width: 200px;
+    width: 90%;
     height: 50px;
     border: 1px solid black;
     border-radius: 5px;
@@ -9,6 +9,8 @@
     margin-top: 10px;
     margin-bottom: 10px;
     display: flex;
+
+    border: 1px solid blue;
 }
 
 .folder p {

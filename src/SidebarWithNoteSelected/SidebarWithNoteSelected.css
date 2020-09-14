@@ -1,16 +1,21 @@
 .sidebar {
-    width: 300px;
+    width: 30%;
     background-color: #aaa;
+     
     display: flex;
     flex-direction: column;
     align-items: center;
+    border: 2px dashed red;
+
 }
 
-.sidebar button {
-    width: 200px;
+/* Add folder button */
+.sidebar_button {
+    width: 100%;
     height: 50px;
     margin-top: 30px;
 
     border-radius: 10px;
+    border: 2px solid purple;
 
 }

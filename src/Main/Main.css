@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 .main__notelist {
@@ -13,7 +15,8 @@
     align-items: left;
 }
 
-.main__notelist button {
+/* Add Note button */
+.addnote__button {
     width: 200px;
     height: 50px;
     margin-top: 30px;

@@ -26,7 +26,7 @@ class MainWithNoteSelected extends React.Component {
                 <div className="main__container">
                     <div className="main__notelist">
                         <Note key={selectedNote.id} note={selectedNote} />
-                        <p> {selectedNote.content} </p>
+                        <h3>Notes: <br/> {selectedNote.content} </h3>
                     </div>
                 </div>  
             )
@@ -36,8 +36,8 @@ class MainWithNoteSelected extends React.Component {
                 <div className="main__container">
                     <div className="main__notelist">
                         <Note key={selectedNote.id} note={selectedNote} />
-                        <p> {selectedNote.quantity} </p>
-                        <p> {selectedNote.size} </p>
+                        <h3>Quantity: <br/>{selectedNote.quantity} </h3>
+                        <h3>Size: <br/> {selectedNote.size} </h3>
                     </div>
                 </div>  
             )
