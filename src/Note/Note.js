@@ -40,7 +40,7 @@ function editNoteRequest(event, note, callback) {
         updatedNote = {product: note.name, quantity: note.quantity, size: note.size};
     }
     else {
-        updatedNote = {cust_name: note.name, total: note.total, comment: note.content, paymentStatus: note.paymentStatus, };
+        updatedNote = {cust_name: 'Al Jones', total: note.total, comment: note.content, payment_status: note.paymentStatus, };
     }
     console.log('beeeeee',updatedNote);
 
@@ -64,7 +64,7 @@ function editNoteRequest(event, note, callback) {
             // return res.json()
         })
         .then(() => {
-            callback(note.id)
+            callback(Number(note.folderid))
         })
         .catch(error => console.log(error))
 }
@@ -79,8 +79,13 @@ function Note(props) {
 
     // If empty string, then true because 'All' is selected;
     // Otherwise, if it's not an empty string and the sorted value equals the name, then it's true
-    const sorted = sortBy === ""? true : sortBy === props.note.name;
+    let sorted = sortBy === ""? true : sortBy === props.note.name;
     console.log(' - - sorted? ', sorted);
+    // "pass" is a prop that is passed to this component only if the individual note is being accessed or edited
+    //  ... sorted is set to true because no sort is needed so if the note is requested then it should be displayed
+    if (props.note.pass) {
+        sorted = true;
+    }
     if (props.note.folderid === 1) {
         if (sorted) {
         return (
@@ -108,7 +113,16 @@ function Note(props) {
                                 : null
                             }
                             <div className={`button-modify`}>
-                            <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button>
+                            {(Number(props.note.folderid) === 1)
+                                ? <Link to='/addInventory'><button className='addnote__button'>Add to inventory</button></Link>
+                                : <Link to={{
+                                    pathname:'/editPurchase',
+                                    state: {
+                                        note: props.note
+                                    }
+                                }}><button className='note_button'>Editz</button></Link>
+                            }
+                            {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                             <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
 
                             </div>
@@ -135,7 +149,16 @@ function Note(props) {
                                 <h3>{props.note.name}</h3> 
                             </Link>
                             <div className={`button-modify`}>
-                            <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button>
+                            {(Number(props.note.folderid) === 1)
+                                ? <Link to='/editInventory'><button className='addnote__button'>Add to inventory</button></Link>
+                                : <Link to={{
+                                    pathname:'/editPurchase',
+                                    state: {
+                                        note: props.note
+                                    }
+                                }}><button className='note_button'>Editz</button></Link>
+                            }
+                            {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                             <button onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
                             </div>
                         </div>
@@ -164,7 +187,16 @@ function Note(props) {
                                 <h3>{props.note.name}</h3> 
                             </Link>
                             <div className={`button-modify`}>
-                                <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button>
+                            {(Number(props.note.folderid) === 1)
+                                ? <Link to='/editInventory'><button className='addnote__button'>Add to inventory</button></Link>
+                                : <Link to={{
+                                    pathname:'/editPurchase',
+                                    state: {
+                                        note: props.note
+                                    }
+                                }}><button className='note_button'>Editz00</button></Link>
+                            }
+                                {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                                 <button onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
 
                             </div>

@@ -5,10 +5,11 @@ import { withRouter } from 'react-router-dom'
 import ApiContext from '../ApiContext'
 import ValidationError from '../ValidationError'
 
-import './AddPurchase.css'
+// import './AddPurchase.css'
 import config from '../config'
+import Note from '../Note/Note';
 
-class AddPurchase extends React.Component {
+class EditPurchase extends React.Component {
     /*
     SET STATE
     */
@@ -31,13 +32,74 @@ class AddPurchase extends React.Component {
                 value: 'None',
                 touched: false
             },
+            note: {},
             error: false
         }
     }
 
     static contextType = ApiContext;
 
+    componentDidMount () {
+        const { note } = this.props.location.state;
+        this.setState({
+            name: {
+                value: note.name,
+                touched: false
+            },
+            total: {
+                value: String(note.total),
+                touched: false
+            },
+            content: {
+                value: note.content,
+                touched: false
+            },
+            paymentStatus: {
+                value: note.paymentStatus,
+                touched: false
+            },
+            note: note
+        });
+        console.log('data is here', note);
+        
+    }
 
+    editNoteRequest = (callback) => {
+        let updatedNote = {};
+
+        updatedNote = {
+            cust_name: this.state.name.value, 
+            total: this.state.total.value, 
+            comment: this.state.content.value, 
+            payment_status: this.state.paymentStatus.value
+        };
+        
+        console.log('beeeeee',updatedNote);
+    
+        const url = config.API_ENDPOINT + `/api/notes/${this.state.note.id}`;
+        console.log('url', url);
+    
+        fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json',
+                'folderid': `2`
+            },
+            body: JSON.stringify(updatedNote)
+        })
+            .then(res => {
+                if (!res) {
+                    res.json().then(error => {
+                        throw error
+                    })
+                }
+                // return res.json()
+            })
+            .then(() => {
+                callback(2)
+            })
+            .catch(error => console.log(error))
+    }
 
     updateNoteName(name) {
         this.setState({name: {value: name, touched: true}})
@@ -55,60 +117,10 @@ class AddPurchase extends React.Component {
         this.setState({paymentStatus: {value: paymentStatus, touched: true}})
     }
 
-    handleSubmit(event) {
-        var moment = require('moment');
-        const now = moment().format();
+    handleSubmit(event, callback) {
         event.preventDefault();
-        const note = {
-            name: this.state.name.value,
-            modified: now,
-            folderId: 2,
-            total: this.state.total.value,
-            content: this.state.content.value,
-            paymentStatus: this.state.paymentStatus.value,
-        }
-        const url = config.API_ENDPOINT + "/api/notes/purchase";
 
-        fetch(url, {
-            method:"POST",
-            body: JSON.stringify(note),
-            headers: {
-                "Content-Type": "application/json"
-        }})
-        .then(res => {
-            if (!res.ok) {
-                res.json().then(error => {
-                    throw error
-                })
-            }
-            return res.json()
-        })
-        .then(data => {
-            this.setState({
-                name: {
-                    value: '',
-                    touched: false
-                },
-                total: {
-                    value: '',
-                    touched: false
-                },
-                content: {
-                    value: '',
-                    touched: false
-                },
-                paymentStatus: {
-                    value: '',
-                    touched: false
-                },
-            })
-            this.context.createNote(data)
-        })
-        .catch(err => {
-            this.setState({
-                error: err.message
-            })
-        })
+        this.editNoteRequest(callback);
     }
 
     validateNoteName() {
@@ -153,8 +165,8 @@ class AddPurchase extends React.Component {
  
 
         return (
-            <form className="addnote" onSubmit={(e) => this.handleSubmit(e)}>
-                <h2>Add Transaction</h2>
+            <form className="addnote" onSubmit={(e) => this.handleSubmit(e, this.context.editNote)}>
+                <h2>Edit Transaction</h2>
                 <div className="form-group">
                     <label htmlFor="name">Name:</label>{" "}
                     <input 
@@ -175,6 +187,7 @@ class AddPurchase extends React.Component {
                         placeholder="e.g. 5.00"
                         name="folderId"
                         id="folderId"
+                        value={this.state.total.value}
                         onChange={e => this.updateTotal(e.target.value)}
                     />
                     {this.state.total.touched && <ValidationError message={totalError} />}
@@ -200,9 +213,10 @@ class AddPurchase extends React.Component {
                         className="addnote__control"
                         name="folderId"
                         id="folderId"
+                        value={this.state.paymentStatus.value}
                         onChange={e => this.updatePaymentStatus(e.target.value)}>
                             <option value="None">Select Payment Status</option>
-                            <option key={1} value={true}>Paid</option>
+                            <option key={1} value={true} >Paid</option>
                             <option key={2} value={false}>Unpaid</option>
                     </select>
                     {this.state.paymentStatus.touched && <ValidationError message={paymentStatusError} />}
@@ -229,4 +243,4 @@ class AddPurchase extends React.Component {
     }
 }
 
-export default AddPurchase;
+export default EditPurchase;

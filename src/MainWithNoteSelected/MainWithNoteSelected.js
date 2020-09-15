@@ -22,10 +22,15 @@ class MainWithNoteSelected extends React.Component {
             }
         }) || {};
         if(selectedNote.folderid === 2) {
+            console.log('testing testing: ',selectedNote)
             return (
                 <div className="main__container">
                     <div className="main__notelist">
-                        <Note key={selectedNote.id} note={selectedNote} />
+                        {/* This component and main both call "Note" component
+                            passing the sorting results to the Note is important to know what to display
+                            Since no sorting is needed here, pass the "pass" variable initialized to "true"
+                            to avoid any "sorting" criteria */}
+                        <Note key={selectedNote.id} note={ {...selectedNote, pass: true}} />
                         <h3>Notes: <br/> {selectedNote.content} </h3>
                     </div>
                 </div>  
