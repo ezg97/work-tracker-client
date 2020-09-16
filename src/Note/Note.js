@@ -27,47 +27,47 @@ function deleteNoteRequest(event, note, callback) {
             // return res.json()
         })
         .then(() => {
-            callback(noteId)
+            callback(note.folderid)
         })
         .catch(error => console.log(error))
 }
 
-function editNoteRequest(event, note, callback) {
-    event.preventDefault();
-    let updatedNote = {};
-    console.log('adding this note:  ',note);
-    if (note.folderid === 1) {
-        updatedNote = {product: note.name, quantity: note.quantity, size: note.size};
-    }
-    else {
-        updatedNote = {cust_name: 'Al Jones', total: note.total, comment: note.content, payment_status: note.paymentStatus, };
-    }
-    console.log('beeeeee',updatedNote);
+// function editNoteRequest(event, note, callback) {
+//     event.preventDefault();
+//     let updatedNote = {};
+//     console.log('adding this note:  ',note);
+//     if (note.folderid === 1) {
+//         updatedNote = {product: note.name, quantity: note.quantity, size: note.size};
+//     }
+//     else {
+//         updatedNote = {cust_name: 'Al Jones', total: note.total, comment: note.content, payment_status: note.paymentStatus, };
+//     }
+//     console.log('beeeeee',updatedNote);
 
-    const url = config.API_ENDPOINT + `/api/notes/${note.id}`;
-    console.log('url', url);
+//     const url = config.API_ENDPOINT + `/api/notes/${note.id}`;
+//     console.log('url', url);
 
-    fetch(url, {
-        method: 'PATCH',
-        headers: {
-            'content-type': 'application/json',
-            'folderid': `${note.folderid}`
-        },
-        body: JSON.stringify(updatedNote)
-    })
-        .then(res => {
-            if (!res) {
-                res.json().then(error => {
-                    throw error
-                })
-            }
-            // return res.json()
-        })
-        .then(() => {
-            callback(Number(note.folderid))
-        })
-        .catch(error => console.log(error))
-}
+//     fetch(url, {
+//         method: 'PATCH',
+//         headers: {
+//             'content-type': 'application/json',
+//             'folderid': `${note.folderid}`
+//         },
+//         body: JSON.stringify(updatedNote)
+//     })
+//         .then(res => {
+//             if (!res) {
+//                 res.json().then(error => {
+//                     throw error
+//                 })
+//             }
+//             // return res.json()
+//         })
+//         .then(() => {
+//             callback(Number(note.folderid))
+//         })
+//         .catch(error => console.log(error))
+// }
 
 function Note(props) {
     var moment = require('moment');
@@ -156,7 +156,7 @@ function Note(props) {
                                     state: {
                                         note: props.note
                                     }
-                                }}><button className='note_button'>Editz</button></Link>
+                                }}><button className='note_button'>Edit</button></Link>
                             }
                             {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                             <button onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>

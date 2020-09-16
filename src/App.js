@@ -111,11 +111,18 @@ class App extends Component {
       }, 2000);
   }
 
-  deleteNote = (noteId) => {
-    const newNotes = this.state.notes.filter(note => note.id !== Number(noteId))
-    this.setState({
-      notes: newNotes
-    })
+  deleteNote = (folderId) => {
+    // const newNotes = this.state.notes.filter(note => note.id !== Number(noteId))
+    // this.setState({
+    //   notes: newNotes
+    // })
+    if (folderId === 1) {
+      this.fetchInventory();
+    }
+    else if (folderId === 2) {
+      console.log('fetching trans......');
+      this.fetchTransaction();
+    }
     this.props.history.push('/')
   }
 
@@ -134,6 +141,13 @@ class App extends Component {
       notes: newNotes
     });
     console.log(note.id, note.folderid);
+
+    if (Number(note.folderid) === 1) {
+      this.fetchInventory();
+    }
+    else if (Number(note.folderid) === 2) {
+      this.fetchTransaction();
+    }
     this.props.history.push(`/`)
   }
 

@@ -90,6 +90,7 @@ class Main extends Component {
             console.log('transaction chosen');
             const { transactions = [] } = this.context;
             notes = transactions;
+            console.table(notes,['id','name']);
         }
         
         if (folderId === undefined) {

@@ -16,8 +16,16 @@ class MainWithNoteSelected extends React.Component {
     render() {
         const noteId = this.props.match.params.noteId;
         const folderId = this.props.match.params.folderId;
-        const selectedNote = this.context.notes.find(note => {
+        let notes = [];
+        if (Number(folderId) === 1) {
+            notes = this.context.inventory;
+        }
+        else if (Number(folderId) === 2) {
+            notes = this.context.transactions;
+        }
+        const selectedNote = notes.find(note => {
             if (note.id === Number(noteId) && note.folderid === Number(folderId)) {
+                console.log('the NOTE: ',note);
                 return note;
             }
         }) || {};
