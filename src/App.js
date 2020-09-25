@@ -10,7 +10,9 @@ import { withRouter } from 'react-router-dom'
 import AddFolder from './AddFolder/AddFolder'
 import AddInventory from './AddInventory/AddInventory'
 import AddPurchase from './AddPurchase/AddPurchase'
+import AddProfile from './AddProfile/AddProfile'
 import EditPurchase from './EditPurchase/EditPurchase'
+import EditInventory from './EditInventory/EditInventory'
 import ErrorBoundary from './ErrorBoundary'
 import config from './config'
 
@@ -23,10 +25,12 @@ class App extends Component {
       notes: [],
       inventory: [],
       purchases: [],
+      profiles: [],
     }
     this.folderUrl = config.API_ENDPOINT + '/api/folders';
     this.purchaseUrl = config.API_ENDPOINT + '/api/notes/purchase';
     this.inventoryUrl = config.API_ENDPOINT + '/api/notes/inventory';
+    this.profileUrl = config.API_ENDPOINT + '/api/notes/profiles';
   }
 
   fetchFolder = () => {
@@ -95,13 +99,38 @@ class App extends Component {
      });
   }
 
+  fetchProfile = () => {
+    fetch(this.profileUrl, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application-json'
+      }
+    })
+     .then(res => {
+       if(!res.ok) {
+         return res.json().then(error => {
+           throw error
+         })
+       }
+       return res.json()
+     })
+     .then(data => {
+       console.log('fetched the profile', data);
+
+       this.setState({
+         profiles: data
+       })
+     });
+  }
+
   componentDidMount() {
     this.fetchFolder();
 
     this.fetchInventory();
     this.fetchTransaction();
+    this.fetchProfile();
      
-
+    console.log('app notes', this.state.profiles)
      // COMBINING IT FOR HOME PAGE, remove once dashboard is in place
      setTimeout(() => {
       console.log('yk',[...this.state.inventory, ...this.state.purchases]);
@@ -122,6 +151,10 @@ class App extends Component {
     else if (folderId === 2) {
       console.log('fetching trans......');
       this.fetchTransaction();
+    }
+    else if (folderId === 3) {
+      console.log('fetching profs......');
+      this.fetchProfile();
     }
     this.props.history.push('/')
   }
@@ -148,6 +181,9 @@ class App extends Component {
     else if (Number(note.folderid) === 2) {
       this.fetchTransaction();
     }
+    else if (Number(note.folderid) === 3) {
+      this.fetchProfile();
+    }
     this.props.history.push(`/`)
   }
 
@@ -159,6 +195,10 @@ class App extends Component {
     else if (folderId === 2) {
       console.log('fetching trans......');
       this.fetchTransaction();
+    }
+    else if (folderId === 3) {
+      console.log('fetching trans......');
+      this.fetchProfile();
     }
     // const newNotes = [...this.state.notes, note]
     // this.setState({
@@ -174,6 +214,7 @@ class App extends Component {
       notes: [...this.state.notes],
       inventory: [...this.state.inventory],
       transactions: [...this.state.purchases],
+      profiles: [...this.state.profiles],
       deleteNote: this.deleteNote,
       createFolder: this.createFolder,
       createNote: this.createNote,
@@ -199,9 +240,10 @@ class App extends Component {
               <Route path='/note/:noteId/:folderId' component={MainWithNoteSelected} />
               <Route path='/addfolder' component={AddFolder} />
               <Route path='/addinventory' component={AddInventory} />
+              <Route path='/addprofile' component={AddProfile} />
               <Route path='/addpurchase' component={AddPurchase} />
               <Route path='/editpurchase' component={EditPurchase} />
-              <Route path='/editinventory' component={AddInventory} />
+              <Route path='/editinventory' component={EditInventory} />
               </ErrorBoundary>
             </main>
           </ApiContext.Provider>

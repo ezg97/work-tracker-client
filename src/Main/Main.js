@@ -92,6 +92,11 @@ class Main extends Component {
             notes = transactions;
             console.table(notes,['id','name']);
         }
+        else if (Number(folderId) === 3) {
+            const { profiles = [] } = this.context;
+            notes = profiles;
+            console.table(notes)
+        }
         
         if (folderId === undefined) {
             console.log('dashboard displayed');
@@ -111,37 +116,43 @@ class Main extends Component {
                     {/* SELECT SORTING CRITERIA */}
                     <div>
                         <h3>Sort: </h3>
-                        <select id='note_options'
-                        value={Number(folderId) === 1 ? this.state.inventorySort : this.state.transactionSort} 
-                        onChange={(e) => this.handleSelectedSort(e.target.value, folderId)}>
-                            <option value="">All</option>
-                            {(notes.length > 0)
-                                ? notes.map((noteObj, id) => 
-                                    Number(folderId) === noteObj.folderid
-                                    ? <option key={id} value={noteObj.name}>{noteObj.name}</option> 
+                        {(Number(folderId) === 1 || Number(folderId) === 2)
+                            ? <select id='note_options'
+                            value={Number(folderId) === 1 ? this.state.inventorySort : this.state.transactionSort} 
+                            onChange={(e) => this.handleSelectedSort(e.target.value, folderId)}>
+                                <option value="">All</option>
+                                {(notes.length > 0)
+                                    ? notes.map((noteObj, id) => 
+                                        Number(folderId) === noteObj.folderid
+                                        ? <option key={id} value={noteObj.name}>{noteObj.name}</option> 
+                                        : null
+                                    )
                                     : null
-                                )
-                                : null
-                            }
-                        </select>
+                                }
+                            </select>
+                            : null
+                        }
                         
-                        <select id='note_options'
-                        value={Number(folderId) === 1 ? this.state.sortByQuantity : this.state.sortByAmount} 
-                        onChange={(e) => this.handleSortByNumber(e.target.value, folderId)}>
-                            <option value="">None</option>
-                            <option value={'low'}>{"Low to High"}</option> 
-                            <option value={'high'}>{"High to Low"}</option> 
-                        </select>
+                        {(Number(folderId) === 1 || Number(folderId) === 2)
+                            ? <select id='note_options'
+                            value={Number(folderId) === 1 ? this.state.sortByQuantity : this.state.sortByAmount} 
+                            onChange={(e) => this.handleSortByNumber(e.target.value, folderId)}>
+                                <option value="">None</option>
+                                <option value={'low'}>{"Low to High"}</option> 
+                                <option value={'high'}>{"High to Low"}</option> 
+                            </select>
+                            : null
+                        }
 
-                        {(Number(folderId) !== 2)
-                            ? null
-                            : <select id='note_options'
+                        {(Number(folderId) === 2)
+                            ? <select id='note_options'
                                 value={this.state.sortByPayment} 
                                 onChange={(e) => this.handleSortByPayment(e.target.value)}>
                                     <option value="">None</option>
                                     <option value={'paid'}>{"Paid"}</option> 
                                     <option value={'unpaid'}>{"Unpaid"}</option> 
                             </select>
+                            : null
                         }
 
                     </div>
@@ -249,7 +260,7 @@ class Main extends Component {
 
                         
                             // WITHOUT paid and unpaid filter
-                            : (notes.length > 0)
+                            : (notes.length > 0 && Number(folderId) !== 3)
                                 // If sort by price option or sort by quantity hasn't been selected "amount" 
                                 ? ((this.state.sortByQuantity === '' && Number(folderId) === 1) || this.state.sortByAmount === '' && Number(folderId) === 2)
                                     ? (!folderId ? notes : notes.filter(note => note.folderid === Number(folderId)))
@@ -294,14 +305,34 @@ class Main extends Component {
                                             })
                                 :   <p>No inventory or purchases.</p>}
                         {/* */}
+
+                        {(Number(folderId) === 3)
+                            ? notes.filter(note => note.folderid === Number(folderId))
+                                    .map(note => {
+                                        return (<Note key={note.id} 
+                                            note={ 
+                                                { ...note, sortBy: '' } 
+                                            }
+                                        />)  
+                                    })          
+
+                            : null
+                        }
                     </div>
+
+                    
 
                     {/* ADD NOTE BUTTON */}
                     {(this.props.match.path === '/')
                         ? null 
                         : (Number(folderId) === 1)
                             ? <Link to='/addInventory'><button className='addnote__button'>Add to inventory</button></Link>
-                            : <Link to='/addPurchase'><button className='addnote__button'>Add to Purchases</button></Link>
+                            : (Number(folderId) === 2)
+                                ? <Link to='/addPurchase'><button className='addnote__button'>Add to Purchases</button></Link>
+                                : (Number(folderId) === 3)
+                                    ? <Link to='/addProfile'><button className='addnote__button'>Add a Profile</button></Link>
+                                    : null
+
                     }
 
                 </div>

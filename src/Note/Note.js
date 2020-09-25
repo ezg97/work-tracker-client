@@ -32,6 +32,12 @@ function deleteNoteRequest(event, note, callback) {
         .catch(error => console.log(error))
 }
 
+function handleMembershipBox(e) {
+    e.preventDefault();
+    console.log('called checkbox');
+    console.log(e.target);
+}
+
 // function editNoteRequest(event, note, callback) {
 //     event.preventDefault();
 //     let updatedNote = {};
@@ -87,6 +93,7 @@ function Note(props) {
         sorted = true;
     }
     if (props.note.folderid === 1) {
+        // sorted will be true if this note is to be displayed (which was decided in the "Main.js" component)
         if (sorted) {
         return (
             <ApiContext.Consumer>
@@ -104,28 +111,24 @@ function Note(props) {
                             <Link to={`/note/${props.note.id}/${props.note.folderid}`} className='note__link'>
                                 <h3>{props.note.name}</h3> 
                             </Link>
-                            {props.note.folderid === 1
-                                ? <div className="inc_dec_buttons">
-                                    <div>{props.note.quantity}</div>
-                                    <button className="small">+</button>
-                                    <button className="small">-</button>
-                                </div>
-                                : null
-                            }
+                            
                             <div className={`button-modify`}>
-                            {(Number(props.note.folderid) === 1)
-                                ? <Link to='/addInventory'><button className='addnote__button'>Add to inventory</button></Link>
-                                : <Link to={{
-                                    pathname:'/editPurchase',
-                                    state: {
-                                        note: props.note
-                                    }
-                                }}><button className='note_button'>Editz</button></Link>
-                            }
-                            {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
-                            <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
-
+                                <Link to={{
+                                    pathname:'/editInventory',
+                                    state: { note: props.note }
+                                }}> <button className='note_button'>Edit</button>
+                                </Link>
+                                
+                                {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
+                                <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
                             </div>
+
+                            <div className="inc_dec_buttons">
+                                <div>{props.note.quantity}</div>
+                                <button className="small">+</button>
+                                <button className="small">-</button>
+                            </div>
+
                         </div>
                     </div>
                     )
@@ -149,23 +152,65 @@ function Note(props) {
                                 <h3>{props.note.name}</h3> 
                             </Link>
                             <div className={`button-modify`}>
-                            {(Number(props.note.folderid) === 1)
-                                ? <Link to='/editInventory'><button className='addnote__button'>Add to inventory</button></Link>
-                                : <Link to={{
+                                <Link to={{
                                     pathname:'/editPurchase',
                                     state: {
                                         note: props.note
                                     }
                                 }}><button className='note_button'>Edit</button></Link>
-                            }
+                            
                             {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
-                            <button onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
+                            <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
                             </div>
                         </div>
                         <p>{props.note.paymentStatus}</p>
                         <p>${props.note.total}</p>
                         <p>{formatTime}</p>
                         
+                    </div>
+                    )
+                }}
+            </ApiContext.Consumer>
+        )
+        }
+        else{
+            return(null);
+        }
+    }
+    else if (props.note.folderid === 3) {
+        // sorted will be true if this note is to be displayed (which was decided in the "Main.js" component)
+        if (sorted) {
+        return (
+            <ApiContext.Consumer>
+                {(context) => {
+                    return (
+                    <div className="note">
+                       
+                        <div className={"note-header"}>
+                            <Link to={`/note/${props.note.id}/${props.note.folderid}`} className='note__link'>
+                                <h3>{props.note.name}</h3> 
+                            </Link>
+                                
+                            <div className={`button-modify`}>
+                                <Link to={{
+                                        pathname:'/editProfile',
+                                        state: {
+                                            note: props.note
+                                        }
+                                }}><button className='note_button'>Edit</button></Link>
+                                
+                                {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
+                                <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
+                            </div>
+
+                            <div className="radio_buttons">
+                                    <label>Membership</label>
+                                    <input type="checkbox" checked={true} readonly/>
+                                    <label>ER</label>
+                                    <input type="checkbox" checked={false} readonly/>
+                                    {/* onChange={(e) => handleMembershipBox(e)} checked={false} */}
+                            </div>
+                        </div>
                     </div>
                     )
                 }}

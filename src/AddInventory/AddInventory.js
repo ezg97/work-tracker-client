@@ -131,43 +131,58 @@ class AddInventory extends React.Component {
             <form className="addnote" onSubmit={(e) => this.handleSubmit(e)}>
                 <h2>Add Item</h2>
                 <div className="form-group">
-                    <label htmlFor="name">Item:</label>{" "}
-                    <input 
-                        type="text"
-                        className="addnote__control"
-                        name="name"
-                        id="name"
-                        placeholder="e.g. Peppermint oil"
-                        value={this.state.name.value}
-                        onChange={e => this.updateNoteName(e.target.value)}
-                        />
+                    <span className='before_input'>
+                        <input 
+                            type="text"
+                            className="addnote__control"
+                            name="name"
+                            id="name"
+                            placeholder="e.g. Peppermint Oil"
+                            minLength={1}
+                            // placeholder="e.g. Peppermint oil"
+                            value={this.state.name.value}
+                            onChange={e => this.updateNoteName(e.target.value)}
+                            required/>
+                            <label className="label" htmlFor="name">Item</label>{" "}
+                        </span>
                         {this.state.name.touched && <ValidationError message={nameError} />}
                 </div>
-                <div className="form-group">
-                    <label htmlFor="folderId">Quantity: </label>{" "}
-                    <input
-                        className="addnote__control"
-                        name="folderId"
-                        id="folderId"
-                        type="number"
-                        min="0"
-                        max="1000"
-                        value={this.state.quantity.value}
-                        onChange={e => this.updateQuantity(e.target.value)}
-                    />
-                    {this.state.quantity.touched && <ValidationError message={QuantityError} />}
 
-                </div>
                 <div className="form-group">
-                    <label htmlFor="folderId">Size: </label>{" "}
-                    <input 
-                        className="addnote__control"
-                        name="folderId"
-                        id="folderId"
-                        value={this.state.content.value}
-                        placeholder="e.g. 5 ml"
-                        onChange={e => this.updateContent(e.target.value)}
+                    <span className='before_input'>
+                        <input
+                            className="addnote__control"
+                            name="folderId"
+                            id="folderId"
+                            type="number"
+                            min="0"
+                            max="1000"
+                            step="0.01"
+                            placeholder="Number"
+                            value={this.state.quantity.value}
+                            onChange={e => this.updateQuantity(e.target.value)}
+                            required
                         />
+                        <label className="label" htmlFor="folderId">Quantity</label>{" "}
+                    </span>
+                    {this.state.quantity.touched && <ValidationError message={QuantityError} />}
+                </div>
+                
+                <div className="form-group">
+                        <span className='before_input'>
+                            <input 
+                                className="addnote__control"
+                                name="folderId"
+                                id="folderId"
+                                placeholder="e.g. 5 ml"
+                                value={this.state.content.value}
+                                minLength={1}
+                                onChange={e => this.updateContent(e.target.value)}
+                                required
+                            />
+                            <label className="label" htmlFor="folderId">Size</label>{" "}
+
+                        </span>
                         {this.state.content.touched && <ValidationError message={contentError} />}
                 </div>
 

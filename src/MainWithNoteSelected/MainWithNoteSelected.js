@@ -23,13 +23,29 @@ class MainWithNoteSelected extends React.Component {
         else if (Number(folderId) === 2) {
             notes = this.context.transactions;
         }
+        else if (Number(folderId) === 3) {
+            notes = this.context.profiles;
+        }
+
         const selectedNote = notes.find(note => {
             if (note.id === Number(noteId) && note.folderid === Number(folderId)) {
                 console.log('the NOTE: ',note);
                 return note;
             }
         }) || {};
-        if(selectedNote.folderid === 2) {
+
+        if(selectedNote.folderid === 3) {
+            return (
+                <div className="main__container">
+                    <div className="main__notelist">
+                        <Note key={selectedNote.id} note={ {...selectedNote, pass: true} } />
+                        <h3>Email: <br/>{selectedNote.email} </h3>
+                        <h3>Phone Number: <br/> {selectedNote.phone} </h3>
+                    </div>
+                </div>  
+            )
+        }
+        else if(selectedNote.folderid === 2) {
             console.log('testing testing: ',selectedNote)
             return (
                 <div className="main__container">
@@ -48,13 +64,14 @@ class MainWithNoteSelected extends React.Component {
             return (
                 <div className="main__container">
                     <div className="main__notelist">
-                        <Note key={selectedNote.id} note={selectedNote} />
+                        <Note key={selectedNote.id} note={{...selectedNote, pass: true}} />
                         <h3>Quantity: <br/>{selectedNote.quantity} </h3>
                         <h3>Size: <br/> {selectedNote.size} </h3>
                     </div>
                 </div>  
             )
         }
+        
         else{
             return (<div></div>)
         }

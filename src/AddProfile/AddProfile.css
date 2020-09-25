@@ -1,0 +1,60 @@
+.radio_group {
+    width: 250px;
+    height: 25px;
+    margin-top: 25px ;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.radio {
+    /* width: 20px; */
+    /* margin-right: 180px; */
+    transform: translate(-95px, 2px);
+    display: inline-flex;
+    justify-content: flex-start;
+    border: 1px solid green;
+
+    cursor: pointer;
+}
+
+/* --- end input style --- */
+
+/* radio_label style */
+.radio_label {
+  
+  display: inline-block;
+  transform: translate(-35px, -19px);
+  color: red;
+  user-select: none;
+  width: 100px;
+
+}
+
+/*when input is focused, but nothing is typed or is invalid (2 chars or less)*/
+.radio:focus + .radio_label {
+    color: red;
+}
+
+.radio:hover + .radio_label {
+    text-decoration: underline solid grey;
+}
+
+/* when the input is focused and while typing*/
+.radio:focus:valid + .radio_label {
+    color: green;
+}
+
+/*when the input has been typed but is no longer focused*/
+/* The others move up 40px, but this one only moves up 20px. 
+	That's because the other two both occur while it's focused, and when it's focused
+	the parent element (span) is being brought down 20px, so they are technically all brought up
+	by 20px, because 40 - 20 = 20px*/
+.radio:valid + .radio_label {
+    color: green;
+}
+/* --- end of radio_label style --- */
