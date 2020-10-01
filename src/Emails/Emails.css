@@ -1,0 +1,47 @@
+.email__container {
+    flex: 1;
+    background-color: rgb(240, 240, 240);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.email__container form select {
+    cursor: pointer;
+}
+
+.profile__container ul {
+    border: 2px solid black;
+    list-style-type: none;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-start;
+    align-items: flex-start;
+
+}
+
+.profile__container ul li {
+    border: 1px solid grey;
+    color: grey;
+
+    border-radius: 5px;
+
+    padding: 4px;
+    cursor: pointer;
+
+    margin-bottom: 5px;
+}
+
+.profile__container ul li:hover, .profile__container ul li:focus {
+    border: 1px solid black;
+    background-color: grey;
+    color: white;
+
+}
+
+.profile__container ul > .prof_selected {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}

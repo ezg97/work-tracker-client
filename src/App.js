@@ -31,6 +31,8 @@ class App extends Component {
     this.purchaseUrl = config.API_ENDPOINT + '/api/notes/purchase';
     this.inventoryUrl = config.API_ENDPOINT + '/api/notes/inventory';
     this.profileUrl = config.API_ENDPOINT + '/api/notes/profiles';
+    this.emailUrl = config.API_ENDPOINT + '/api/email/send';
+
   }
 
   fetchFolder = () => {

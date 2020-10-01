@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import './Main.css'
 import Note from '../Note/Note'
+import Emails from '../Emails/Emails'
 import ApiContext from '../ApiContext'
 import { Link } from 'react-router-dom'
+import config from '../config'
+
 
 class Main extends Component {
 
@@ -14,13 +17,16 @@ class Main extends Component {
           sortByQuantity: '',
           sortByAmount: '',
           sortByPayment: '',
+          selectedCount: 0,
         }
+
       }
 
     static defaultProps = {
         match: {
             params: {}
         }
+        
     }
     static contextType = ApiContext;
 
@@ -65,6 +71,67 @@ class Main extends Component {
         }
     }
 
+    onSend = (e) => {
+        e.preventDefault();
+
+        console.log('sent');
+
+        const url = config.API_ENDPOINT + "/api/email/send";
+
+        const email = {
+            from: 'elijahguerrero97@fake.com',
+            to: ['fake@test.com', 'anotherOne@fake.com'],
+            subject: "Anotha day, anotha dolla",
+            message: "Check out this bad boi",
+            attachments: ""
+        };
+
+        fetch(url, {
+            method:"POST",
+            body: JSON.stringify(email),
+            headers: {
+                "Content-Type": "application/json"
+        }})
+        .then(res => {
+            if (!res.ok) {
+                res.json().then(error => {
+                    throw error
+                })
+            }
+            return res.json()
+        })
+        .then(data => {
+            console.log('sent complete');
+            console.log(data);
+        })
+        .catch(err => {
+            this.setState({
+                error: err.message
+            })
+        })
+    }
+
+    selectProfile = (e) => {
+        e.stopPropagation();
+        let className = e.target.className;
+        if(className.includes('prof_selected')) {
+            console.log('class 1', e.currentTarget.className)
+            e.currentTarget.className = '';
+            this.setState({
+                selectedCount: this.state.selectedCount - 1,
+            });
+        }
+        else {
+            e.currentTarget.className = 'prof_selected';
+            console.log('class 2', e.currentTarget.className);
+            this.setState({
+                selectedCount: this.state.selectedCount + 1,
+            });        }
+        console.log('selected prof count', this.state.selectedCount);
+    }
+   
+
+
     handleSortByPayment = (sort) => {
         console.log('changed: ', sort);
         
@@ -108,7 +175,7 @@ class Main extends Component {
                 </div>
             )
         }
-        else {
+        else if (Number(folderId) !== 4) {
             return (
                 <div className="main__container">
                     {console.log('notes',notes)}
@@ -336,6 +403,16 @@ class Main extends Component {
                     }
 
                 </div>
+            )
+        }
+
+        else if (Number(folderId) === 4) {
+            console.log('made it to email')
+            console.log(this.context.profiles)
+            return(
+            <>
+                <Emails/>
+            </>
             )
         }
     }

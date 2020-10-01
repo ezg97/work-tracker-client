@@ -5,11 +5,17 @@ import PropTypes from 'prop-types'
 
 function Folder(props) {
     return (
-        <NavLink to={`/folder/${props.id}`} className='folder__link' activeClassName='selected__folder'>
-            <div className="folder">
-                <p>{props.name}</p>
+        <>
+            <div className='folder_container'>
+                <span className="line"></span>
+                <NavLink to={`/folder/${props.id}`} className='folder__link' activeClassName='selected__folder'>
+                    <div className="folder">
+                        <p>{props.name}</p>
+                    </div>
+                </NavLink>
+                <span className="line"></span>
             </div>
-        </NavLink>
+        </>
     )
 }
 
