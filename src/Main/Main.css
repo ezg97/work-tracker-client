@@ -2,17 +2,44 @@
     flex: 1;
     background-color: rgb(240, 240, 240);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     height: 100%;
     width: 100%;
+
+    padding-top: 10px;
+    overflow-y:auto;
+
+
+}
+
+.main__container h3 {
+    text-align: center;
+}
+
+.main__container #note_options {
+    padding: 5px;
+    margin: 5px;
+    cursor: pointer;
+  }
+
+.main__container #note_options:hover, .main__container #note_options:focus {
+    border: 1px solid skyblue;
+    border-radius: 5px;
 }
 
 .main__notelist {
     width: 90%;
+    padding: 15px;
+
     display: flex;
-    flex-direction: column;
-    align-items: left;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    flex-wrap: wrap;
+
 }
 
 /* Add Note button */
@@ -23,4 +50,16 @@
     margin-bottom: 30px;
 
     border-radius: 10px;
+}
+
+div > iframe{
+    width: 100%;
+    height:100%;
+    overflow-y:auto;
+
+}
+
+iframe{
+    width: 100%;
+    height: 100%;
 }

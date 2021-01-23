@@ -1,11 +1,21 @@
 .sidebar {
     width: 30%;
     background-color: #aaa;
-     
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
-    border: 2px dashed red;
+    
+    height: 100%;
+    min-width: 150px;
+    max-width: 300px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    overflow-y:auto;
+
+    border-right: 2px solid black;
 
 }
 
@@ -16,6 +26,5 @@
     margin-top: 30px;
 
     border-radius: 10px;
-    border: 2px solid purple;
 
 }

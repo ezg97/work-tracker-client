@@ -1,0 +1,16 @@
+.container{
+    height: 100%;
+    width: 100%;
+}
+
+.OPV-page{
+    height: 100%;
+    flex-direction: column; /*header ontop and the main on the bottom */
+
+}
+
+main{
+    height: calc(100% - 100px);
+    padding: 0px;
+
+}

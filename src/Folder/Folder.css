@@ -39,15 +39,16 @@
 }
 
 .selected__folder .folder {
-    background-color: skyblue;
-    border: 1px solid white;
+    border: 2px solid #e76f51;
+    background-color: white;
+    color: #e76f51;
 }
 
 .folder:hover, .folder:focus {
     /* background-color: grey; */
     background-color: transparent;
-    border: 1px solid black;
-    color: white;
+    border: 1px solid #e76f51;;
+    color: #e76f51;;
 
 }
 

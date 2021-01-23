@@ -1,0 +1,78 @@
+.unknown{
+    /* background-color: rgb(32, 35, 48); */
+     
+
+
+}
+.unknown-background {
+    background-image: 
+            linear-gradient(
+                rgba(38, 10, 117, 0.5),
+                rgba(100, 9, 9, 0.5)
+            ),
+            url("https://cdn.mos.cms.futurecdn.net/deaceNXy23NF8VsCrwZPgn.jpg");
+            
+      /* Center and scale the image nicely */
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      display: flex;
+      height: 100vh;
+      width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      filter: blur(5px);
+
+      position: absolute;
+      top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+
+}
+
+.unknown-text {
+    position: absolute;    
+
+}
+
+.unknown h2{
+    color: white;
+    filter: blur(0);
+    margin-top: 40vh;
+    margin-left: 40vw;
+
+}
+
+
+.unknown button {
+   
+    padding: 10px;
+    background-color: black;
+    color: white;
+    margin-top: 20px;    
+    margin-left: 40vw;
+
+    filter: blur(0);
+
+
+}
+
+.unknown button a{
+    border: 0px;
+    text-decoration: none;
+}
+
+.unknown button a:visited, .unknown button a:active, .unknown button a:hover, .unknown button a:focus .unknown button a{
+    border: 0px;
+    text-decoration: none;
+    color: white;
+    background-color: black;
+    box-shadow: none;
+}
+
+

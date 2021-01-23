@@ -6,19 +6,56 @@ import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import config from '../config'
 
-function deleteNoteRequest(event, note, callback) {
+// function deleteNoteRequest(event, note, callback) {
+//     event.preventDefault();
+//     const noteId = note.id;
+//     console.log(noteId);
+//     const url = config.API_ENDPOINT + `/api/notes/${noteId}`;
+//     fetch(url, {
+//         method: 'DELETE',
+//         headers: {
+//             'content-type': 'application/json',
+//             'folderid': `${note.folderid}`
+//         }
+//     })
+//         .then(res => {
+//             if (!res) {
+//                 res.json().then(error => {
+//                     throw error
+//                 })
+//             }
+//             // return res.json()
+//         })
+//         .then(() => {
+//             callback(note.folderid)
+//         })
+//         .catch(error => console.log(error))
+// }
+
+function editNoteRequest(event, val, note, callback) {
     event.preventDefault();
     const noteId = note.id;
-    console.log(noteId);
+    console.log('waka waka: ', note.folderid);
+    console.log(noteId, 'value->',val);
     const url = config.API_ENDPOINT + `/api/notes/${noteId}`;
+    let query = {};
+    if (note.folderid === 1) {
+        query = {quantity: val};
+    }
+    else if (note.folderid === 3) {
+        query = {size: val};
+    }
+
     fetch(url, {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
             'content-type': 'application/json',
             'folderid': `${note.folderid}`
-        }
+        },
+        body: JSON.stringify(query)
     })
         .then(res => {
+            console.log('returned from fetch');
             if (!res) {
                 res.json().then(error => {
                     throw error
@@ -27,6 +64,7 @@ function deleteNoteRequest(event, note, callback) {
             // return res.json()
         })
         .then(() => {
+            console.log('updated folder');
             callback(note.folderid)
         })
         .catch(error => console.log(error))
@@ -112,22 +150,33 @@ function Note(props) {
                                 <h3>{props.note.name}</h3> 
                             </Link>
                             
-                            <div className={`button-modify`}>
+                            {/* <div className={`button-modify`}>
                                 <Link to={{
                                     pathname:'/editInventory',
                                     state: { note: props.note }
                                 }}> <button className='note_button'>Edit</button>
                                 </Link>
                                 
-                                {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                                 <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
-                            </div>
+                            </div> */}
 
-                            <div className="inc_dec_buttons">
-                                <div>{props.note.quantity}</div>
-                                <button className="small">+</button>
-                                <button className="small">-</button>
+
+                            <div class='note-info'>
+                                <div>
+                                    <p>Total</p>
+                                  
+                                </div>
+                                <div>
+                                    <p id="tot">#{props.note.quantity}</p>
+                                </div>
+
                             </div>
+                            
+                            <div className="inc_dec_buttons">
+                                <button className="small" onClick={(event) => editNoteRequest(event, props.note.quantity+1, props.note, context.updateNote)}>+</button>
+                                <button className="small" onClick={(event) => editNoteRequest(event, props.note.quantity-1, props.note, context.updateNote)}>-</button>
+                            </div>
+                            
 
                         </div>
                     </div>
@@ -151,7 +200,7 @@ function Note(props) {
                             <Link to={`/note/${props.note.id}/${props.note.folderid}`} className='note__link'>
                                 <h3>{props.note.name}</h3> 
                             </Link>
-                            <div className={`button-modify`}>
+                            {/* <div className={`button-modify`}>
                                 <Link to={{
                                     pathname:'/editPurchase',
                                     state: {
@@ -159,13 +208,26 @@ function Note(props) {
                                     }
                                 }}><button className='note_button'>Edit</button></Link>
                             
-                            {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
                             <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
+                            </div> */}
+                            <div class='note-info'>
+                                <div>
+                                    <p>Payment Status:</p>
+                                    <p>Total:</p>
+                                    <p>Date:</p>
+                                </div>
+                                <div>
+                                    <p>{props.note.paymentStatus? 'Paid':'Unpaid'}</p>
+                                    <p>${props.note.total}</p>
+                                    <p>{formatTime}</p>  
+                                </div>
+                            </div>
+                           
+                            <div>
+
                             </div>
                         </div>
-                        <p>{props.note.paymentStatus}</p>
-                        <p>${props.note.total}</p>
-                        <p>{formatTime}</p>
+                        
                         
                     </div>
                     )
@@ -191,7 +253,8 @@ function Note(props) {
                                 <h3>{props.note.name}</h3> 
                             </Link>
                                 
-                            <div className={`button-modify`}>
+                            {/* <div className={`button-modify`}>
+                                {console.log('notes props',props.note)}
                                 <Link to={{
                                         pathname:'/editProfile',
                                         state: {
@@ -199,16 +262,28 @@ function Note(props) {
                                         }
                                 }}><button className='note_button'>Edit</button></Link>
                                 
-                                {/* <button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
+                                {//<button className="note_button" onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> }
                                 <button className="note_button" onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
-                            </div>
+                            </div> */}
 
-                            <div className="radio_buttons">
+                            {/* <div className="radio_buttons">
                                     <label>Membership</label>
-                                    <input type="checkbox" checked={true} readonly/>
+                                    <input type="checkbox" checked={props.note.membership} readonly/>
                                     <label>ER</label>
-                                    <input type="checkbox" checked={false} readonly/>
-                                    {/* onChange={(e) => handleMembershipBox(e)} checked={false} */}
+                                    <input type="checkbox" checked={props.note.er} readonly/>
+                                    {/* onChange={(e) => handleMembershipBox(e)} checked={false} }
+                            </div> */}
+                            <div class='note-info'>
+                                <div>
+                                    <label>Membership</label>
+                                    <br></br>
+                                    <label>ER</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" checked={props.note.membership} readonly/>
+                                    <br></br>
+                                    <input type="checkbox" checked={props.note.er} readonly/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -231,7 +306,7 @@ function Note(props) {
                             <Link to={`/note/${props.note.id}/${props.note.folderid}`} className='note__link'>
                                 <h3>{props.note.name}</h3> 
                             </Link>
-                            <div className={`button-modify`}>
+                            {/* <div className={`button-modify`}>
                             {(Number(props.note.folderid) === 1)
                                 ? <Link to='/editInventory'><button className='addnote__button'>Add to inventory</button></Link>
                                 : <Link to={{
@@ -241,10 +316,10 @@ function Note(props) {
                                     }
                                 }}><button className='note_button'>Editz00</button></Link>
                             }
-                                {/* <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> */}
+                                {// <button onClick={(event) => editNoteRequest(event, props.note, context.editNote)}>Edit</button> }
                                 <button onClick={(event) => deleteNoteRequest(event, props.note, context.deleteNote)}>Delete</button>
 
-                            </div>
+                            </div> */}
                         </div>
                         <p>{formatTime}</p>
                        

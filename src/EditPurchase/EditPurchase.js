@@ -168,58 +168,71 @@ class EditPurchase extends React.Component {
             <form className="addnote" onSubmit={(e) => this.handleSubmit(e, this.context.editNote)}>
                 <h2>Edit Transaction</h2>
                 <div className="form-group">
-                    <label htmlFor="name">Name:</label>{" "}
-                    <input 
-                        type="text"
-                        className="addnote__control"
-                        placeholder="e.g. John Doe"
-                        name="name"
-                        id="name"
-                        value={this.state.name.value}
-                        onChange={e => this.updateNoteName(e.target.value)}
-                        />
-                        {this.state.name.touched && <ValidationError message={nameError} />}
+                    <span className='before_input'>
+                        <input 
+                            type="text"
+                            className="addnote__control"
+                            name="name"
+                            id="name"
+                            placeholder="John Doe"
+                            minLength={2}
+                            value={this.state.name.value}
+                            onChange={e => this.updateNoteName(e.target.value)}
+                            required/>
+                        <label className="label" htmlFor="name">Name</label>{" "}
+                    </span>
+                    {this.state.name.touched && <ValidationError message={nameError} />}
+
+                    
                 </div>
                 <div className="form-group">
-                    <label htmlFor="folderId">Total: </label>{" "}
-                    <input
-                        className="addnote__control"
-                        placeholder="e.g. 5.00"
-                        name="folderId"
-                        id="folderId"
-                        value={this.state.total.value}
-                        onChange={e => this.updateTotal(e.target.value)}
-                    />
+                    <span className='before_input'>
+                        <input
+                            className="addnote__control"
+                            type='number'
+                            name="folderId"
+                            id="folderId"
+                            placeholder="e.g. 5.00"
+                            value={this.state.total.value}
+                            onChange={e => this.updateTotal(e.target.value)}
+                            min="0"
+                            max="1000"
+                            step="0.01"
+                            required
+                        />
+                        <label className="label" htmlFor="folderId">Total</label>{" "}
+
+                    </span>
                     {this.state.total.touched && <ValidationError message={totalError} />}
 
                 </div>
+
                 <div className="form-group note-content">
                     <textarea 
                         rows="5"
                         cols="30"
-                        className="addnote__control"
                         name="content"
                         id="content"
                         value={this.state.content.value}
                         placeholder="e.g. Will pay on June 1st, 2020"
                         onChange={e => this.updateContent(e.target.value)}
                         />
-                        {this.state.content.touched && <ValidationError message={contentError} />}
                 </div>
 
+           
                 <div className="form-group">
-                    <label htmlFor="folderId">Paid: </label>{" "}
                     <select
-                        className="addnote__control"
                         name="folderId"
                         id="folderId"
                         value={this.state.paymentStatus.value}
                         onChange={e => this.updatePaymentStatus(e.target.value)}>
                             <option value="None">Select Payment Status</option>
-                            <option key={1} value={true} >Paid</option>
+                            <option key={1} value={true}>Paid</option>
                             <option key={2} value={false}>Unpaid</option>
                     </select>
                     {this.state.paymentStatus.touched && <ValidationError message={paymentStatusError} />}
+
+                   
 
                 </div>
 

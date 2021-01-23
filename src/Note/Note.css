@@ -1,15 +1,18 @@
 .note {
     box-sizing: border-box;
     position: relative;
-    width: 100%;
     min-width: 200px;
     border: 2px solid lightblue;
     margin-top: 20px;
     padding: 10px;
 
-    
+    display: flex;
+    justify-content: column;
+    align-items: flex-start;
 
     border-radius: 10px;
+
+    margin-left: 20px;
 
     background-color: lightgrey;
 }
@@ -19,9 +22,32 @@
     margin-bottom: 30px;
 }
 
-.note p {
+
+
+
+
+
+.note-info > div {
+    display: inline-block;
+    padding: 5px;
+}
+
+
+
+.note-info > div:first-child {
+    border-right: 1px solid black;
+    text-align: end;
+}
+
+
+.note p, .note label {
     margin-bottom: 0;
     font-size: 12px;
+    
+}
+
+#tot {
+    font-weight: bold;
 }
 
 .button-modify{
@@ -40,8 +66,8 @@
     border-radius: 10px;
 
     margin: 10px 10px;
-    background-color: #333;
-    border: 1px solid red;
+    background-color: #2a9d8f;
+    border: 1px solid black;
     color: white;
 
     font-weight: bold;
@@ -51,21 +77,15 @@
 /* Increment and decrement buttons */
 
 .inc_dec_buttons {
-    border: 1px solid red;
-
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
 }
 
-.inc_dec_buttons > div {
-    font-weight: bolder;
-    font-size: 18px;
-    padding: 0px;
-    border: 1px solid green;
-}
 
 .small {
      width: 25px;
@@ -94,9 +114,9 @@
 }
 
 .small:hover, .small:focus {
-    background-color: black;
-    color: white;
-    border: 1px solid white;
+    background-color: transparent;
+    color: #e76f51;
+    border: 1px solid #e76f51;;
 }
 
 .note__link {

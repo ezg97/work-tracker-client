@@ -13,6 +13,7 @@ class SidebarWithNoteSelected extends React.Component {
             }
         }
     }
+    
     static contextType = ApiContext;
     render() {
         const selectedFolder = this.context.folders.find((folder) => {
@@ -29,6 +30,14 @@ class SidebarWithNoteSelected extends React.Component {
             )
         }
         else if(parseInt(this.props.match.params.folderId) === 2) {
+            return (
+                <div className='sidebar'>
+                    <button onClick={() => this.props.history.goBack()}>Go back</button>
+                    <Folder key={selectedFolder.id} id={selectedFolder.id} name={selectedFolder.foldername} />
+                </div>
+            )
+        }
+        else if(parseInt(this.props.match.params.folderId) === 3) {
             return (
                 <div className='sidebar'>
                     <button onClick={() => this.props.history.goBack()}>Go back</button>

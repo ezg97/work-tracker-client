@@ -1,21 +1,51 @@
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/* Allows app to be completely full screen */
+html, body, #root{
+    height: 100%;
+    width: 100%;
+}
+
+.App {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
 }
 
 header {
     background-color: #333;
-    height: 150px;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    background-image: url('https://3stepsolutions.s3.amazonaws.com/assets/custom/000708/images/web/linkedin-banner-6.png');
 }
 
 .app_title {
-    color: lightblue;
+    color: skyblue;
     text-decoration: none;
     text-align: center;
     display: inline-block;
     margin: auto;
+    background-color: grey;
+    border: 1px solid grey;
+    opacity: .5;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.app_title:hover, .app_title:focus {
+    opacity: .3;
+    background-color: white;
+    color: #e76f51;
+    border-radius: 5px;
+    border: 1px solid #e76f51;
 }
 
 main {
@@ -29,3 +59,4 @@ button, a{
     cursor: pointer;
 
 }
+

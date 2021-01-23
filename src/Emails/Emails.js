@@ -18,7 +18,7 @@ class Emails extends Component {
           subject: '',
           message: '',
           content: '',
-          attachments: '',
+          attachments: [],
         }
       }
 
@@ -54,19 +54,21 @@ class Emails extends Component {
         console.log('sent');
 
         const url = config.API_ENDPOINT + "/api/email/send";
+        console.log('attacg',this.state.attachments[0])
 
         const email = {
             from: 'elijahguerrero97@fake.com',
             to: this.state.emails,
             subject: this.state.subject,
             message: this.state.content,
-            attachments: ""
+            attachments: this.state.attachments[0]
         };
 
         fetch(url, {
             method:"POST",
             body: JSON.stringify(email),
             headers: {
+                Accept: "application/pdf",
                 "Content-Type": "application/json"
         }})
         .then(res => {
@@ -215,12 +217,19 @@ class Emails extends Component {
     }
 
     updateAttachments = (val) => {
+        console.log('file', document.getElementById("file_attachments").file);
         let files = document.getElementById("file_attachments").files;
+        console.log('e',val);
+        console.log('e.target',val.target);
+        console.log('e.currentTarget',val.currentTarget);
+        console.log('e.target.value', val.target.value)
         console.log('attached', files);
+        console.log('1st',files[0]);
+        console.log('1st value', files[0].path);
         // console.log('attached', val);
-        // this.setState({
-        //     attachments: val
-        // });
+        this.setState({
+            attachments: [...files]
+        });
     }
 
     // updateMessage = (value) => {
@@ -233,6 +242,7 @@ class Emails extends Component {
 
         return (
             <div className="main__container">
+                <h2 className="email-title">Email</h2>
                 {console.log('EMAIL STATE', this.state)}
 
                 <div className='profile__container'>
@@ -312,39 +322,38 @@ class Emails extends Component {
                     }
                 </div>
 
+                <hr></hr>
+
                 <div className="email__container">
-                    <div>
-                        <h2>Email</h2>
-                    </div>
 
                     <form>
-                        <label>To:</label>
-                        <br></br>
-                        <select onChange={(e) => this.optionSelect(e.target.value)}>
-                            <option value={'none'}>None</option>
-                            <option value={'all'}>All</option>
-                            <option value={'select'}>Select</option>
-                            <option value={'membership'}>Membership</option>
-                            <option value={'er'}>ER</option>
+                        <div className='email__inputs'>
+                            <label>To:</label>
+                            <select onChange={(e) => this.optionSelect(e.target.value)}>
+                                <option value={'none'}>None</option>
+                                <option value={'all'}>All</option>
+                                <option value={'select'}>Select</option>
+                                <option value={'membership'}>Membership</option>
+                                <option value={'er'}>ER</option>
 
-                        </select>
+                            </select>
+                        </div>
                         <br></br>
 
-                        <label>Subject:</label>
-                        <br></br>
-                        <input type='email' 
-                                value={this.state.subject}
-                                onChange={(e) => this.updateSubject(e.target.value)}>
-                                </input>
+                        <div className="email__inputs">
+                            <label>Subject:</label>
+                        
+                            <input type='email' 
+                                    value={this.state.subject}
+                                    onChange={(e) => this.updateSubject(e.target.value)}>
+                            </input>
+                        </div>
+
                         <br></br>
 
                         <label>Message:</label>
                         <br></br>
-                        {/* <textarea rows={10} col={30} 
-                                  value={this.state.message}
-                                  onChange={(e) => this.updateMessage(e.target.value)}>
-                                  ></textarea> */}
-                        
+                     
                       
                         <CKEditor 
                             activeClass="p10" 
@@ -359,7 +368,6 @@ class Emails extends Component {
                         <input type="file" 
                                 id="file_attachments" 
                                 name="files"
-                                value={this.state.attachments}
                                 onChange={(e) => this.updateAttachments(e)} 
                                 multiple>
                         </input>

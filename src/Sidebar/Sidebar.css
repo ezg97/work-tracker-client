@@ -1,21 +1,22 @@
-.sidebar {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    width: 300px;
-    background-color: lightgray;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.logout-btn {
+    color:white;
+
+    border: 1px solid white;
+    border-radius: 5px;
+
+    background-color: #2a9d8f;
+    font-weight: bold;
+
+    padding: 8px;
 }
 
-.sidebar_button {
-    width: 200px;
-    height: 50px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+.logout-btn:hover, .logout-btn:focus {
+    color:#e76f51;
 
-    border-radius: 10px;
+    background-color: transparent;
+
+
+    border: 1px solid #e76f51;;
+
 
 }
-
-

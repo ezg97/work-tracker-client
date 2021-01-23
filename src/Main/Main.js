@@ -18,6 +18,9 @@ class Main extends Component {
           sortByAmount: '',
           sortByPayment: '',
           selectedCount: 0,
+          membership: '',
+          er: '',
+          name: '',
         }
 
       }
@@ -142,6 +145,87 @@ class Main extends Component {
        
     }
 
+    handleSortByMembership = (sort) => {
+        console.log('changed membership: ', sort);
+        
+        if (sort !== '') {
+            this.setState({ membership: sort});
+        }
+        else this.setState({membership: ""});
+       
+    }
+
+    handleSortByER = (sort) => {
+        console.log('changed: ', sort);
+        
+        if (sort !== '') {
+            this.setState({ er: sort});
+        }
+        else this.setState({ er: ""});
+    }
+
+    handleSortByName = (sort) => {
+        console.log('changed: ', sort);
+        
+        if (sort !== '') {
+            this.setState({ name: sort});
+        }
+        else this.setState({ name: ""});
+    }
+
+    sortProfiles = (notes, folderId) => {
+        if (this.state.name === 'DEC') {
+            notes
+            .sort((a,b) => {
+                a = a.name.toLowerCase();
+                b = b.name.toLowerCase();
+                if( a == b) return 0;
+                return a < b ? -1 : 1;
+            });
+        }
+        else if (this.state.name === 'INC') {
+            notes
+            .sort((a,b) => {
+                a = a.name.toLowerCase();
+                b = b.name.toLowerCase();
+                if( a == b) return 0;
+                return a > b ? -1 : 1;
+            });
+        }
+
+        if (String(this.state.membership) === 'true') {
+            console.log('member');
+            notes = notes.filter(obj => {
+                return String(obj.membership) === 'true';
+            });
+        }
+        else if (String(this.state.membership) === 'false') {
+            console.log('NOT member');
+            notes = notes.filter(obj => {
+                return String(obj.membership) === 'false';
+            });
+        }
+
+        if (String(this.state.er) === 'true') {
+            console.log('member');
+            notes = notes.filter(obj => {
+                return String(obj.er) === 'true';
+            });
+        }
+        else if (String(this.state.er) === 'false') {
+            console.log('NOT member');
+            notes = notes.filter(obj => {
+                return String(obj.er) === 'false';
+            });
+        }
+
+        console.log('returning profs', notes)
+        return notes;
+    }
+        
+           
+
+
     render() {
         console.log('state update: ', this.state);
         // const { notes = [] } = this.context;
@@ -162,7 +246,7 @@ class Main extends Component {
         else if (Number(folderId) === 3) {
             const { profiles = [] } = this.context;
             notes = profiles;
-            console.table(notes)
+            console.table(notes);
         }
         
         if (folderId === undefined) {
@@ -175,7 +259,7 @@ class Main extends Component {
                 </div>
             )
         }
-        else if (Number(folderId) !== 4) {
+        else if (Number(folderId) !== 4 && Number(folderId) !== 5) {
             return (
                 <div className="main__container">
                     {console.log('notes',notes)}
@@ -204,7 +288,7 @@ class Main extends Component {
                             ? <select id='note_options'
                             value={Number(folderId) === 1 ? this.state.sortByQuantity : this.state.sortByAmount} 
                             onChange={(e) => this.handleSortByNumber(e.target.value, folderId)}>
-                                <option value="">None</option>
+                                {(Number(folderId) === 1)? <option value="">Quantity</option> : <option value="">Price</option>}
                                 <option value={'low'}>{"Low to High"}</option> 
                                 <option value={'high'}>{"High to Low"}</option> 
                             </select>
@@ -215,9 +299,43 @@ class Main extends Component {
                             ? <select id='note_options'
                                 value={this.state.sortByPayment} 
                                 onChange={(e) => this.handleSortByPayment(e.target.value)}>
-                                    <option value="">None</option>
+                                    <option value="">Payment Status</option>
                                     <option value={'paid'}>{"Paid"}</option> 
                                     <option value={'unpaid'}>{"Unpaid"}</option> 
+                            </select>
+                            : null
+                        }
+
+                        {(Number(folderId) === 3)
+                            ? <select id='note_options'
+                                value={this.state.membership} 
+                                onChange={(e) => this.handleSortByMembership(e.target.value)}>
+                                    <option value={''}>Membership</option>
+                                    <option value={true}>Yes</option>
+                                    <option value={false}>No</option> 
+                            </select>
+                            : null
+                        }
+
+                        {(Number(folderId) === 3)
+                            ? <select id='note_options'
+                                value={this.state.er} 
+                                onChange={(e) => this.handleSortByER(e.target.value)}>
+                                    <option value={''}>ER</option>
+                                    <option value={true}>Yes</option> 
+                                    <option value={false}>No</option>
+
+                            </select>
+                            : null
+                        }
+
+                        {(Number(folderId) === 3)
+                            ? <select id='note_options'
+                                value={this.state.name} 
+                                onChange={(e) => this.handleSortByName(e.target.value)}>
+                                    <option value={''}>Name</option>
+                                    <option value={'DEC'}>A - Z</option> 
+                                    <option value={'INC'}>Z - A</option> 
                             </select>
                             : null
                         }
@@ -370,10 +488,21 @@ class Main extends Component {
                                                 } />)
                                                 
                                             })
-                                :   <p>No inventory or purchases.</p>}
+                                :   (Number(folderId) === 3)
+                                    ? this.sortProfiles(notes, folderId)
+                                            .map(note => {
+                                                return (<Note key={note.id} 
+                                                    note={ 
+                                                    {...note, 
+                                                    sortBy: ''} 
+                                                } />)
+                                                
+                                            })
+                                    :<>No inventory or purchases.</>
+                            }
                         {/* */}
 
-                        {(Number(folderId) === 3)
+                        {/* {(Number(folderId) === 3)
                             ? notes.filter(note => note.folderid === Number(folderId))
                                     .map(note => {
                                         return (<Note key={note.id} 
@@ -384,7 +513,7 @@ class Main extends Component {
                                     })          
 
                             : null
-                        }
+                        } */}
                     </div>
 
                     
@@ -413,6 +542,13 @@ class Main extends Component {
             <>
                 <Emails/>
             </>
+            )
+        }
+        else if (Number(folderId) === 5) {
+            return (
+                <div className="main__container">
+                <iframe src='https://calendar.google.com/calendar/embed?src=oilsporvida@gmail.com'></iframe>
+            </div>
             )
         }
     }

@@ -3,13 +3,18 @@
     margin-right: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-width: 100%;
+    
+    width: 100%;
+    height: 100%;
 
-    border: 1px solid red;
+    padding-top: 10px;
 }
 
+.addnote > h2 {
+    padding-bottom: 25px;
+}
 
 .addnote__button {
     margin-top: 20px; 
@@ -50,6 +55,9 @@ width: 100%;
     align-items: center;
 }
 
+#content {
+    border: 1px solid black;
+}
 /* ------------------------------- */
 
 /* span style */

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom'
 import ApiContext from '../ApiContext'
 import ValidationError from '../ValidationError'
 
-// import './AddPurchase.css'
+import './EditInventory.css'
 import config from '../config'
 import Note from '../Note/Note';
 
@@ -142,46 +142,59 @@ class EditInventory extends React.Component {
 
         return (
             <form className="addnote" onSubmit={(e) => this.handleSubmit(e, this.context.editNote)}>
-                <h2>Edit Transaction</h2>
+                <h2>Edit Inventory</h2>
                 <div className="form-group">
-                    <label htmlFor="name">Name:</label>{" "}
-                    <input 
-                        type="text"
-                        className="addnote__control"
-                        placeholder="e.g. John Doe"
-                        name="name"
-                        id="name"
-                        value={this.state.name.value}
-                        onChange={e => this.updateNoteName(e.target.value)}
-                        />
+                <span className='before_input'>
+                        <input 
+                            type="text"
+                            className="addnote__control"
+                            name="name"
+                            id="name"
+                            placeholder="e.g. Peppermint Oil"
+                            minLength={1}
+                            // placeholder="e.g. Peppermint oil"
+                            value={this.state.name.value}
+                            onChange={e => this.updateNoteName(e.target.value)}
+                            required/>
+                            <label className="label" htmlFor="name">Item</label>{" "}
+                        </span>
                         {this.state.name.touched && <ValidationError message={nameError} />}
                 </div>
                 <div className="form-group">
-                    <label htmlFor="folderId">Quantity: </label>{" "}
-                    <input
-                        className="addnote__control"
-                        type='number'
-                        min={0}
-                        max={1000}
-                        placeholder="e.g. 3"
-                        name="folderId"
-                        id="folderId"
-                        value={this.state.quantity.value}
-                        onChange={e => this.updateQuantity(e.target.value)}
-                    />
+                <span className='before_input'>
+                        <input
+                            className="addnote__control"
+                            name="folderId"
+                            id="folderId"
+                            type="number"
+                            min="0"
+                            max="1000"
+                            step="0.01"
+                            placeholder="Number"
+                            value={this.state.quantity.value}
+                            onChange={e => this.updateQuantity(e.target.value)}
+                            required
+                        />
+                        <label className="label" htmlFor="folderId">Quantity</label>{" "}
+                    </span>
                     {this.state.quantity.touched && <ValidationError message={quantityError} />}
 
                 </div>
                 <div className="form-group note-content">
-                    <input
-                        className="addnote__control"
-                        type='text'
-                        placeholder="e.g. 5 ml"
-                        name="folderId"
-                        id="folderId"
-                        value={this.state.size.value}
-                        onChange={e => this.updateSize(e.target.value)}
-                    />
+                <span className='before_input'>
+                            <input 
+                                className="addnote__control"
+                                name="folderId"
+                                id="folderId"
+                                placeholder="e.g. 5 ml"
+                                value={this.state.size.value}
+                                minLength={1}
+                                onChange={e => this.updateContent(e.target.value)}
+                                required
+                            />
+                            <label className="label" htmlFor="folderId">Size</label>{" "}
+
+                        </span>
                     {this.state.size.touched && <ValidationError message={sizeError} />}
                 </div>
 
