@@ -35,11 +35,11 @@ class Login extends React.Component{
     btnGoogle = (e) => {
         e.preventDefault();
 
-        fetch('http://localhost:8000/auth/login/google',
+        fetch('https://afternoon-mesa-97298.herokuapp.com/auth/login/google',
         {   method: "GET", 
             headers: {
                 'Accept': 'application/json',
-                'Access-Control-Allow-Origin':'http://localhost:3000/',
+                'Access-Control-Allow-Origin':'https://opv.elijahguerrero97.vercel.app/',
                 'Content-Type': 'applications/json',
                 'redirect': 'follow'
             }
@@ -53,7 +53,7 @@ class Login extends React.Component{
         })
         .then(res => {
             console.log('about to open');
-            let myWindow = window.location.href="http://localhost:8000/auth/google";     
+            let myWindow = window.location.href="https://afternoon-mesa-97298.herokuapp.com/auth/google";     
         })
         .catch(err => {
             console.log('ERROR: ', err);

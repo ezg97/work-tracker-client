@@ -41,12 +41,12 @@ class App extends Component {
   logout = () => {
     console.log('logging out');
 
-    fetch('http://localhost:8000/auth/logout',
+    fetch('https://afternoon-mesa-97298.herokuapp.com/auth/logout',
     { method: "GET", 
       'credentials': 'include',
       headers: new Headers({
         'Accept': 'application/json',
-        'Access-Control-Allow-Origin':'http://localhost:3000/',
+        'Access-Control-Allow-Origin':'https://opv.elijahguerrero97.vercel.app/',
         'Content-Type': 'application/json',
       })
     })
@@ -70,12 +70,12 @@ class App extends Component {
   authorize = () => {
     console.log('authorizing...');
     
-    fetch('http://localhost:8000/auth/',
+    fetch('https://afternoon-mesa-97298.herokuapp.com/auth/',
     {   method: "GET", 
          'credentials': 'include',
           headers: new Headers({
             'Accept': 'application/json',
-            'Access-Control-Allow-Origin':'http://localhost:3000/',
+            'Access-Control-Allow-Origin':'https://opv.elijahguerrero97.vercel.app/',
             'Content-Type': 'application/json',
          }),
     })
